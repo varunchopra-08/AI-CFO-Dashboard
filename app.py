@@ -66,7 +66,8 @@ if 'df' not in st.session_state:
 if 'analysis_complete' not in st.session_state:
     st.session_state.analysis_complete = False
 if 'groq_api_key' not in st.session_state:
-    st.session_state.groq_api_key = os.getenv('GROQ_API_KEY', '')
+    # Use Streamlit secrets first, then environment variable
+    st.session_state.groq_api_key = st.secrets.get('groq_api_key', os.getenv('GROQ_API_KEY', ''))
 if 'qa_history' not in st.session_state:
     st.session_state.qa_history = []
 if 'financial_context' not in st.session_state:
@@ -567,19 +568,11 @@ st.markdown('<p class="main-header">💰 AI CFO Dashboard</p>', unsafe_allow_htm
 with st.sidebar:
     st.header("📊 Controls")
     
-    # Groq API Key input
-    st.markdown("### 🤖 AI Configuration")
-    api_key_input = st.text_input(
-        "Groq API Key (Optional)",
-        value=st.session_state.groq_api_key,
-        type="password",
-        help="Enter your Groq API key for AI-powered insights. Get one at https://console.groq.com"
-    )
-    if api_key_input:
-        st.session_state.groq_api_key = api_key_input
-        st.success("✅ AI enabled")
+    # AI Status
+    if st.session_state.groq_api_key:
+        st.success("✅ AI Features Enabled")
     else:
-        st.info("ℹ️ Add API key for AI insights")
+        st.warning("⚠️ AI features unavailable - API key not configured")
     
     st.markdown("---")
     
