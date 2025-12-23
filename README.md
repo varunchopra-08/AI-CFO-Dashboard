@@ -66,21 +66,54 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 
-4. **Set up API key** (optional but recommended)
-```powershell
-# Option 1: Environment variable
-$env:GROQ_API_KEY = "your-api-key-here"
-
-# Option 2: Create .env file
-echo "GROQ_API_KEY=your-api-key-here" > .env
-```
-
-5. **Run the dashboard**
+4. **Run the dashboard**
 ```powershell
 streamlit run app.py
 ```
 
-6. **Open browser** → http://localhost:8501
+5. **Open browser** → http://localhost:8501
+
+### Cloud Deployment (Streamlit Cloud - FREE)
+
+The easiest way to host your AI CFO dashboard for free:
+
+1. **Push to GitHub** (if not already done)
+```powershell
+git push origin main
+```
+
+2. **Go to Streamlit Cloud**
+   - Visit https://streamlit.io/cloud
+   - Click "Sign up" → Sign in with GitHub
+
+3. **Deploy Your App**
+   - Click "New app"
+   - Select repository: `varunchopra-08/AI-CFO-Dashboard`
+   - Select branch: `main`
+   - Set main file path: `app.py`
+   - Click "Deploy"
+
+4. **Add API Key (Secrets Management)**
+   - After deployment, go to app settings (⋮ menu)
+   - Click "Secrets" 
+   - Add your Groq API key:
+   ```toml
+   groq_api_key = "your-api-key-here"
+   ```
+   - Save and the app will auto-reboot
+
+Your app is now live! 🚀
+
+### Local Deployment (Optional API Key)
+
+To use locally without Streamlit Cloud:
+```powershell
+# Environment variable
+$env:GROQ_API_KEY = "your-api-key-here"
+
+# Or create .streamlit/secrets.toml
+$env:GROQ_API_KEY = "your-api-key-here"
+```
 
 ---
 
@@ -88,33 +121,29 @@ streamlit run app.py
 
 ### Web Dashboard (Recommended)
 
-1. **Configure AI** (Optional)
-   - Enter your Groq API key in the sidebar
-   - Get one free at [console.groq.com](https://console.groq.com)
-
-2. **Upload Financial Data**
+1. **Upload Financial Data**
    - Click "Upload Financial Data" in sidebar
    - Supported formats: CSV, Excel (.xlsx, .xls)
    - Required columns: `date`, `description`, `amount`, `category`, `vendor`
 
-3. **Analyze Data**
+2. **Analyze Data**
    - Click "🔍 Analyze Data" button
    - Wait for processing (5-10 seconds)
    - Explore interactive visualizations
 
-4. **Review AI Insights**
+3. **Review AI Insights**
    - **AI-Powered Insights**: Quick pattern detection
-   - **AI Executive Summary**: Strategic overview (with API key)
+   - **AI Executive Summary**: Strategic overview (AI automatically enabled if API key configured)
    - **CFO Recommendations**: AI-generated action items
    - **💬 Ask Questions**: Interactive Q&A about your financial data
 
-5. **Ask Questions (New!)**
+4. **Ask Questions (New!)**
    - Navigate to the Q&A section
    - Ask natural language questions about your data
    - Get instant AI-powered answers with specific numbers
    - Review conversation history and export insights
 
-6. **Generate Reports**
+5. **Generate Reports**
    - Click "📄 Generate PDF Report"
    - Download professional report with AI insights
    - Export processed data as CSV
@@ -206,13 +235,17 @@ ai_cfo/
 - ❌ AI-generated recommendations
 - ❌ AI Q&A system
 
-### With API Key (AI-Powered Mode)
+### With API Key (AI-Powered Mode - Recommended)
+> **The API key is automatically configured in Streamlit Cloud via Secrets Management.**
+
 - ✅ Everything from Basic Mode
 - ✅ **AI Executive Summary**: Strategic financial overview
 - ✅ **AI Recommendations**: Context-aware advice with timelines
 - ✅ **Expected Impact**: Predictions of recommendation outcomes
 - ✅ **Enhanced PDF Reports**: AI insights included
 - ✅ **💬 AI Q&A System**: Ask questions and get instant answers about your data
+
+**Note**: The API key is permanently configured and does NOT require manual input from users.
 
 ### Example AI Recommendation
 
@@ -330,9 +363,18 @@ A: Analysis shows:
 
 ## ⚙️ Configuration
 
-### Environment Variables
+### API Key Setup
+
+#### For Streamlit Cloud (Recommended)
+The API key is automatically managed via Streamlit Secrets - no additional setup needed after deployment.
+
+#### For Local Development
 ```bash
-GROQ_API_KEY=your-api-key-here    # Required for AI features
+# Option 1: Environment variable
+$env:GROQ_API_KEY = "your-api-key-here"
+
+# Option 2: Create .streamlit/secrets.toml
+groq_api_key = "your-api-key-here"
 ```
 
 ### Starting Cash Balance
@@ -369,9 +411,10 @@ D:/ai_cfo/venv/Scripts/python.exe -m streamlit run app.py
 - Verify reports directory permissions
 
 **AI features not working**
-- Verify API key is correct
+- Verify API key is configured in Streamlit Cloud Secrets
 - Check internet connection
 - Visit [status.groq.com](https://status.groq.com) for service status
+- If using locally, ensure `GROQ_API_KEY` environment variable is set or `.streamlit/secrets.toml` exists
 
 **Data upload errors**
 - Ensure CSV has required columns
